@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Romo Kitchen | Nagasandra, Bengaluru</title>
+
+  <style>
+    :root{
+      --red:#e23744;        /* Zomato-like */
+      --red2:#ff4d5d;
+      --black:#0f0f10;
+      --ink:#16181c;
+      --muted:#6b7280;
+      --bg:#0b0b0c;
+      --card:#121316;
+      --card2:#15171b;
+      --line:rgba(255,255,255,0.08);
+      --soft:rgba(255,255,255,0.06);
+      --shadow: 0 18px 45px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box; margin:0; padding:0;}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1000px 700px at 10% 0%, rgba(226,55,68,0.18), transparent 55%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(255,77,93,0.12), transparent 60%),
+                  var(--bg);
+      color:#eef2f7;
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a{color:inherit; text-decoration:none;}
+    .container{max-width:1180px; margin:0 auto; padding:0 18px;}
+
+    /* NAV */
+    nav{
+      position:sticky; top:0; z-index:50;
+      background: rgba(10,10,11,0.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0; gap:14px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; min-width:220px;}
+    .logo{
+      width:42px; height:42px; border-radius:14px;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      display:grid; place-items:center;
+      font-weight:900; letter-spacing:0.5px;
+      box-shadow: 0 12px 25px rgba(226,55,68,0.28);
+    }
+    .brand .name{font-weight:900; letter-spacing:0.2px;}
+    .brand .sub{font-size:12px; color:rgba(238,242,247,0.68); margin-top:1px;}
+
+    .links{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+    }
+    .links a{
+      font-size:14px; font-weight:700;
+      padding:9px 12px; border-radius:999px;
+      color:rgba(238,242,247,0.85);
+      border:1px solid transparent;
+    }
+    .links a:hover{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.09);
+    }
+
+    .cta{
+      display:flex; align-items:center; gap:10px;
+      min-width:230px; justify-content:flex-end;
+    }
+    .btn{
+      border:0; cursor:pointer;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:900;
+      font-size:14px;
+      display:inline-flex; align-items:center; gap:8px;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .btn:active{transform: translateY(1px);}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      color:white;
+      box-shadow: 0 16px 30px rgba(226,55,68,0.25);
+    }
+    .btn.primary:hover{filter:brightness(1.02);}
+    .btn.ghost{
+      background: rgba(255,255,255,0.06);
+      color:rgba(238,242,247,0.92);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .btn.ghost:hover{background: rgba(255,255,255,0.09);}
+
+    /* HERO */
+    .hero{padding:36px 0 22px;}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(500px 240px at 20% 0%, rgba(226,55,68,0.25), transparent 55%),
+                  radial-gradient(500px 280px at 80% 20%, rgba(255,77,93,0.18), transparent 60%);
+      opacity:0.9;
+      pointer-events:none;
+      z-index:0;
+    }
+    .hero-card > *{position:relative; z-index:1;}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      background: rgba(226,55,68,0.14);
+      border:1px solid rgba(226,55,68,0.28);
+      color: rgba(255,255,255,0.92);
+      padding:7px 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:13px;
+      width: fit-content;
+    }
+    .hero h1{
+      margin:14px 0 8px;
+      font-size:44px;
+      line-height:1.1;
+      letter-spacing:-0.6px;
+    }
+    .hero p{
+      color: rgba(238,242,247,0.78);
+      font-size:15px;
+      max-width: 58ch;
+      margin-bottom: 14px;
+    }
+    .meta-row{
+      display:flex; flex-wrap:wrap; gap:10px;
+      margin-top: 12px;
+    }
+    .meta{
+      display:flex; gap:10px; align-items:flex-start;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding:10px 12px;
+      border-radius: 14px;
+      min-width: 220px;
+      flex:1;
+    }
+    .meta .ic{width:22px; height:22px; display:grid; place-items:center; opacity:0.95;}
+    .meta .t{font-weight:900; font-size:13px;}
+    .meta .d{font-size:12px; color: rgba(238,242,247,0.70); margin-top:2px;}
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+
+    /* SIDE CARD */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .side .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.28);
+    }
+    .side .card h3{
+      font-size:14px; letter-spacing:0.2px;
+      margin-bottom:8px;
+      font-weight:950;
+    }
+    .side .card .line{
+      height:1px; background: rgba(255,255,255,0.08); margin:10px 0;
+    }
+    .kv{display:flex; justify-content:space-between; gap:12px; padding:8px 0;}
+    .kv span{font-size:13px; color: rgba(238,242,247,0.78);}
+    .kv strong{font-size:13px; font-weight:950;}
+    .badge-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+    .badge{
+      font-size:12px; font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(238,242,247,0.90);
+    }
+
+    /* SECTION BASE */
+    section{padding:26px 0;}
+    .section-head{
+      display:flex; justify-content:space-between; align-items:flex-end;
+      gap:12px; margin-bottom:12px;
+    }
+    .section-head h2{
+      font-size:22px; letter-spacing:-0.2px;
+      font-weight:950;
+    }
+    .section-head small{color: rgba(238,242,247,0.64); font-weight:700;}
+
+    .grid-2{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.22);
+    }
+    .panel h3{font-size:15px; font-weight:950; margin-bottom:6px;}
+    .panel p{color: rgba(238,242,247,0.75); font-size:14px;}
+
+    /* MENU */
+    .menu-tools{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin: 10px 0 12px;
+    }
+    .search{
+      flex:1;
+      min-width: 240px;
+      display:flex; gap:10px; align-items:center;
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .search input{
+      width:100%;
+      border:none; outline:none;
+      background: transparent;
+      color: rgba(238,242,247,0.92);
+      font-size:14px;
+    }
+    .search input::placeholder{color: rgba(238,242,247,0.45);}
+
+    .chip{
+      padding:9px 12px;
+      border-radius:999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      color: rgba(238,242,247,0.86);
+      font-weight:900;
+      font-size:13px;
+      cursor:pointer;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .chip:hover{background: rgba(255,255,255,0.08);}
+    .chip.active{
+      background: rgba(226,55,68,0.16);
+      border-color: rgba(226,55,68,0.35);
+      color: rgba(255,255,255,0.95);
+    }
+
+    details.menu-cat{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      overflow:hidden;
+      margin-bottom:12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+    }
+    details.menu-cat summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px 14px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(226,55,68,0.08));
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      font-weight:950;
+      letter-spacing:0.2px;
+    }
+    details.menu-cat summary::-webkit-details-marker{display:none;}
+    .sum-left{display:flex; align-items:center; gap:10px;}
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: linear-gradient(135deg, var(--red), var(--red2));
+      box-shadow: 0 10px 20px rgba(226,55,68,0.25);
+    }
+    .sum-right{font-size:12px; color: rgba(238,242,247,0.62); font-weight:800;}
+    .items{padding: 6px 14px 14px;}
+
+    .menu-item{
+      display:flex; justify-content:space-between; gap:14px;
+      padding:10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .menu-item:last-child{border-bottom:none;}
+    .name{font-weight:950; font-size:14px;}
+    .sub{font-size:12px; color: rgba(238,242,247,0.62); margin-top:2px;}
+    .price{
+      font-weight:950;
+      color: rgba(255,255,255,0.95);
+      background: rgba(226,55,68,0.16);
+      border: 1px solid rgba(226,55,68,0.35);
+      padding:7px 10px;
+      border-radius: 12px;
+      white-space:nowrap;
+      height: fit-content;
+    }
+
+    .policy-strip{
+      margin-top: 12px;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .policy{
+      flex:1;
+      min-width: 260px;
+      border-radius: 16px;
+      padding: 12px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(238,242,247,0.85);
+      font-size:13px;
+      font-weight:800;
+    }
+
+    /* GALLERY */
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
+    }
+    .ph{
+      border-radius: var(--radius);
+      padding: 14px;
+      min-height: 130px;
+      background: linear-gradient(135deg, rgba(226,55,68,0.18), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.18);
+      display:flex; flex-direction:column; justify-content:space-between;
+    }
+    .ph .t{font-weight:950; font-size:14px;}
+    .ph .s{font-size:12px; color: rgba(238,242,247,0.64);}
+
+    /* CONTACT */
+    form{display:grid; gap:10px;}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      color: rgba(238,242,247,0.92);
+      outline:none;
+      font-size:14px;
+    }
+    input::placeholder, textarea::placeholder{color: rgba(238,242,247,0.45);}
+    textarea{min-height:120px; resize:vertical;}
+    #status{margin-top:10px; font-size:13px; font-weight:900;}
+
+    /* FOOTER */
+    .footer{
+      margin-top:18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 22px 0;
+      color: rgba(238,242,247,0.72);
+    }
+    .footer strong{color: rgba(238,242,247,0.92);}
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr;}
+      .cta{justify-content:flex-start; min-width:auto;}
+      .links{display:none;}
+      .hero h1{font-size:36px;}
+      .grid-2{grid-template-columns: 1fr;}
+      .gallery{grid-template-columns: repeat(2, 1fr);}
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo">R</div>
+        <div>
+          <div class="name">Romo Kitchen</div>
+          <div class="sub">Nagasandra • Bengaluru</div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="cta">
+        <a class="btn ghost" href="tel:8904233005">Call</a>
+        <a class="btn primary" href="#menu">View Menu</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-card">
+        <div class="pill">🍽️ Dine-in • Takeaway • Delivery</div>
+        <h1>Romo Kitchen</h1>
+        <p>
+          A local restaurant in Nagasandra, Bengaluru, serving fried rice, noodles, rolls, momos, tandoori items,
+          and quick bites with delivery options.
+        </p>
+
+        <div class="meta-row">
+          <div class="meta">
+            <div class="ic">📍</div>
+            <div>
+              <div class="t">Address</div>
+              <div class="d">153, 1st Cross, 1st Main Rd, 5th Block HMT Layout, Nagasandra, Bengaluru, Karnataka 560073</div>
+            </div>
+          </div>
+          <div class="meta">
+            <div class="ic">📞</div>
+            <div>
+              <div class="t">Contact</div>
+              <div class="d">8904233005 / 8904233006</div>
+            </div>
+          </div>
+          <div class="meta">
+            <div class="ic">🛵</div>
+            <div>
+              <div class="t">Delivery</div>
+              <div class="d">Free home delivery within 2km on orders above ₹300</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#menu">Browse Full Menu</a>
+          <a class="btn ghost" href="#contact">Enquiry</a>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="card">
+          <h3>Business Highlights</h3>
+          <div class="kv"><span>Availability</span><strong>Swiggy & Zomato</strong></div>
+          <div class="kv"><span>Order Policy</span><strong>No cancellation after order</strong></div>
+          <div class="div line"></div>
+          <div class="badge-row">
+            <span class="badge">Rice</span>
+            <span class="badge">Noodles</span>
+            <span class="badge">Rolls</span>
+            <span class="badge">Momos</span>
+            <span class="badge">Tandoori</span>
+            <span class="badge">Quick Bites</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Quick Contact</h3>
+          <div class="kv"><span>Call 1</span><strong>8904233005</strong></div>
+          <div class="kv"><span>Call 2</span><strong>8904233006</strong></div>
+          <div class="hero-actions" style="margin-top:10px;">
+            <a class="btn primary" href="tel:8904233005">Call Now</a>
+            <a class="btn ghost" href="#contact">Message</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2>About Romo Kitchen</h2>
+        <small>Business overview and website purpose</small>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Business Overview</h3>
+          <p>
+            Romo Kitchen is a neighbourhood restaurant in Nagasandra, Bengaluru, offering a variety of fast and filling
+            meals including rice items, noodles, rolls, momos, tandoori items, and quick bites.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Purpose of the Website</h3>
+          <p>
+            The website provides customers with key business information, a complete menu with pricing, and contact options
+            to support orders, enquiries, and customer communication.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <div class="section-head">
+        <h2>Menu</h2>
+        <small>Search and filter items by category</small>
+      </div>
+
+      <div class="menu-tools">
+        <div class="search">
+          🔎 <input id="menuSearch" type="text" placeholder="Search items (e.g., schezwan, momo, fries, paneer, maggie)"/>
+        </div>
+
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="rice">Rice</button>
+        <button class="chip" data-filter="noodles">Noodles</button>
+        <button class="chip" data-filter="roll">Rolls</button>
+        <button class="chip" data-filter="momo">Momos</button>
+        <button class="chip" data-filter="tandoori">Tandoori</button>
+        <button class="chip" data-filter="quick">Quick Bites</button>
+      </div>
+
+      <!-- RICE -->
+      <details class="menu-cat" data-cat="rice" open>
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Rice Items</div>
+          <div class="sum-right">Veg • Egg • Chicken</div>
+        </summary>
+        <div class="items">
+          <!-- Veg -->
+          <div class="menu-item" data-name="plain rice"><div><div class="name">Plain Rice</div><div class="sub">Veg</div></div><div class="price">₹50</div></div>
+          <div class="menu-item" data-name="jeera rice"><div><div class="name">Jeera Rice</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="veg fried rice"><div><div class="name">Veg Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="veg schezwan fried rice"><div><div class="name">Veg Schezwan Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="gobi fried rice"><div><div class="name">Gobi Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="gobi schezwan fried rice"><div><div class="name">Gobi Schezwan Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="mushroom fried rice"><div><div class="name">Mushroom Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="mushroom schezwan fried rice"><div><div class="name">Mushroom Schezwan Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="babycorn fried rice"><div><div class="name">Babycorn Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="babycorn schezwan fried rice"><div><div class="name">Babycorn Schezwan Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="paneer fried rice"><div><div class="name">Paneer Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="paneer schezwan fried rice"><div><div class="name">Paneer Schezwan Fried Rice</div><div class="sub">Veg</div></div><div class="price">₹120</div></div>
+
+          <!-- Egg -->
+          <div class="menu-item" data-name="egg fried rice"><div><div class="name">Egg Fried Rice</div><div class="sub">Egg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="egg schezwan fried rice"><div><div class="name">Egg Schezwan Fried Rice</div><div class="sub">Egg</div></div><div class="price">₹100</div></div>
+
+          <!-- Chicken -->
+          <div class="menu-item" data-name="chicken fried rice"><div><div class="name">Chicken Fried Rice</div><div class="sub">Chicken</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="chicken schezwan fried rice"><div><div class="name">Chicken Schezwan Fried Rice</div><div class="sub">Chicken</div></div><div class="price">₹120</div></div>
+          <div class="menu-item" data-name="egg chicken fried rice"><div><div class="name">Egg Chicken Fried Rice</div><div class="sub">Chicken</div></div><div class="price">₹120</div></div>
+          <div class="menu-item" data-name="egg chicken schezwan fried rice"><div><div class="name">Egg Chicken Schezwan Fried Rice</div><div class="sub">Chicken</div></div><div class="price">₹130</div></div>
+        </div>
+      </details>
+
+      <!-- NOODLES -->
+      <details class="menu-cat" data-cat="noodles">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Noodles</div>
+          <div class="sum-right">Veg • Egg • Chicken</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="veg noodles"><div><div class="name">Veg Noodles</div><div class="sub">Veg</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="veg schezwan noodles"><div><div class="name">Veg Schezwan Noodles</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="gobi noodles"><div><div class="name">Gobi Noodles</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="gobi schezwan noodles"><div><div class="name">Gobi Schezwan Noodles</div><div class="sub">Veg</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="mushroom noodles"><div><div class="name">Mushroom Noodles</div><div class="sub">Veg</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="mushroom schezwan noodles"><div><div class="name">Mushroom Schezwan Noodles</div><div class="sub">Veg</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="paneer noodles"><div><div class="name">Paneer Noodles</div><div class="sub">Veg</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="paneer schezwan noodles"><div><div class="name">Paneer Schezwan Noodles</div><div class="sub">Veg</div></div><div class="price">₹120</div></div>
+
+          <div class="menu-item" data-name="egg noodles"><div><div class="name">Egg Noodles</div><div class="sub">Egg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="egg schezwan noodles"><div><div class="name">Egg Schezwan Noodles</div><div class="sub">Egg</div></div><div class="price">₹100</div></div>
+
+          <div class="menu-item" data-name="chicken noodles"><div><div class="name">Chicken Noodles</div><div class="sub">Chicken</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="chicken schezwan noodles"><div><div class="name">Chicken Schezwan Noodles</div><div class="sub">Chicken</div></div><div class="price">₹120</div></div>
+          <div class="menu-item" data-name="egg chicken noodles"><div><div class="name">Egg Chicken Noodles</div><div class="sub">Chicken</div></div><div class="price">₹120</div></div>
+          <div class="menu-item" data-name="egg chicken schezwan noodles"><div><div class="name">Egg Chicken Schezwan Noodles</div><div class="sub">Chicken</div></div><div class="price">₹130</div></div>
+        </div>
+      </details>
+
+      <!-- ROLLS -->
+      <details class="menu-cat" data-cat="roll">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Rolls</div>
+          <div class="sum-right">Egg • Chicken • Paneer • Veg</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="egg roll"><div><div class="name">Egg Roll</div><div class="sub">Roll</div></div><div class="price">₹60</div></div>
+          <div class="menu-item" data-name="double egg roll"><div><div class="name">Double Egg Roll</div><div class="sub">Roll</div></div><div class="price">₹70</div></div>
+          <div class="menu-item" data-name="chicken roll"><div><div class="name">Chicken Roll</div><div class="sub">Roll</div></div><div class="price">₹70</div></div>
+          <div class="menu-item" data-name="egg with chicken roll"><div><div class="name">Egg with Chicken Roll</div><div class="sub">Roll</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="single egg double chicken"><div><div class="name">Single Egg Double Chicken</div><div class="sub">Roll</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="double egg single chicken"><div><div class="name">Double Egg Single Chicken</div><div class="sub">Roll</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="double egg double chicken"><div><div class="name">Double Egg Double Chicken</div><div class="sub">Roll</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="double chicken roll"><div><div class="name">Double Chicken Roll</div><div class="sub">Roll</div></div><div class="price">₹90</div></div>
+
+          <div class="menu-item" data-name="paneer roll"><div><div class="name">Paneer Roll</div><div class="sub">Roll</div></div><div class="price">₹70</div></div>
+          <div class="menu-item" data-name="egg with paneer"><div><div class="name">Egg with Paneer</div><div class="sub">Roll</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="double egg with paneer"><div><div class="name">Double Egg with Paneer</div><div class="sub">Roll</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="single egg double paneer"><div><div class="name">Single Egg Double Paneer</div><div class="sub">Roll</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="double paneer"><div><div class="name">Double Paneer</div><div class="sub">Roll</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="double egg double paneer"><div><div class="name">Double Egg Double Paneer</div><div class="sub">Roll</div></div><div class="price">₹110</div></div>
+
+          <div class="menu-item" data-name="veg roll"><div><div class="name">Veg Roll</div><div class="sub">Roll</div></div><div class="price">₹60</div></div>
+          <div class="menu-item" data-name="egg with veg"><div><div class="name">Egg with Veg</div><div class="sub">Roll</div></div><div class="price">₹70</div></div>
+          <div class="menu-item" data-name="double egg with veg"><div><div class="name">Double Egg with Veg</div><div class="sub">Roll</div></div><div class="price">₹80</div></div>
+        </div>
+      </details>
+
+      <!-- MOMOS -->
+      <details class="menu-cat" data-cat="momo">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Momos</div>
+          <div class="sum-right">Veg • Paneer • Chicken</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="veg momo"><div><div class="name">Veg Momo</div><div class="sub">Veg</div></div><div class="price">₹70</div></div>
+          <div class="menu-item" data-name="paneer momo"><div><div class="name">Paneer Momo</div><div class="sub">Veg</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="veg fried momo"><div><div class="name">Veg Fried Momo</div><div class="sub">Veg</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="paneer fried momo"><div><div class="name">Paneer Fried Momo</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="veg combo"><div><div class="name">Veg Combo</div><div class="sub">Veg</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="veg fried combo"><div><div class="name">Veg Fried Combo</div><div class="sub">Veg</div></div><div class="price">₹90</div></div>
+
+          <div class="menu-item" data-name="chicken momo"><div><div class="name">Chicken Momo</div><div class="sub">Chicken</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="chicken fried momo"><div><div class="name">Chicken Fried Momo</div><div class="sub">Chicken</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="chicken fried combo"><div><div class="name">Chicken Fried Combo</div><div class="sub">Chicken</div></div><div class="price">₹90</div></div>
+        </div>
+      </details>
+
+      <!-- MASALA MOMO -->
+      <details class="menu-cat" data-cat="momo">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Masala Momo</div>
+          <div class="sum-right">Special</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="veg masala momo"><div><div class="name">Veg Masala Momo</div><div class="sub">Masala Momo</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="paneer masala momo"><div><div class="name">Paneer Masala Momo</div><div class="sub">Masala Momo</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="chicken masala momo"><div><div class="name">Chicken Masala Momo</div><div class="sub">Masala Momo</div></div><div class="price">₹110</div></div>
+        </div>
+      </details>
+
+      <!-- TANDOORI -->
+      <details class="menu-cat" data-cat="tandoori">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Tandoori Items</div>
+          <div class="sum-right">6/10 pcs pricing</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="paneer tikka"><div><div class="name">Paneer Tikka (6/10 pcs)</div><div class="sub">Veg</div></div><div class="price">₹130 / ₹250</div></div>
+          <div class="menu-item" data-name="malai paneer"><div><div class="name">Malai Paneer (6/10 pcs)</div><div class="sub">Veg</div></div><div class="price">₹150 / ₹290</div></div>
+          <div class="menu-item" data-name="pahadi paneer"><div><div class="name">Pahadi Paneer (6/10 pcs)</div><div class="sub">Veg</div></div><div class="price">₹150 / ₹290</div></div>
+
+          <div class="menu-item" data-name="tandoori chicken"><div><div class="name">Tandoori Chicken</div><div class="sub">Non-Veg</div></div><div class="price">₹190 / ₹370</div></div>
+          <div class="menu-item" data-name="kalmi kabab"><div><div class="name">Kalmi Kabab (2/4 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹150 / ₹290</div></div>
+          <div class="menu-item" data-name="chicken tikka kabab"><div><div class="name">Chicken Tikka Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹150 / ₹290</div></div>
+          <div class="menu-item" data-name="tandoor kabab"><div><div class="name">Tandoor Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹120 / ₹230</div></div>
+          <div class="menu-item" data-name="hariyali kabab"><div><div class="name">Hariyali Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹130 / ₹250</div></div>
+          <div class="menu-item" data-name="afghani kabab"><div><div class="name">Afghani Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹130 / ₹250</div></div>
+          <div class="menu-item" data-name="reshmi kabab"><div><div class="name">Reshmi Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹150 / ₹290</div></div>
+          <div class="menu-item" data-name="malai kabab"><div><div class="name">Malai Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹160 / ₹310</div></div>
+          <div class="menu-item" data-name="pahadi kabab"><div><div class="name">Pahadi Kabab (6/10 pcs)</div><div class="sub">Non-Veg</div></div><div class="price">₹160 / ₹310</div></div>
+        </div>
+      </details>
+
+      <!-- QUICK BITES -->
+      <details class="menu-cat" data-cat="quick">
+        <summary>
+          <div class="sum-left"><span class="dot"></span>Quick Bites</div>
+          <div class="sum-right">Fries • Egg • Maggie</div>
+        </summary>
+        <div class="items">
+          <div class="menu-item" data-name="french fries"><div><div class="name">French Fries</div><div class="sub">French Fries</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="peri peri french fries"><div><div class="name">Peri Peri French Fries</div><div class="sub">French Fries</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="masala french fries"><div><div class="name">Masala French Fries</div><div class="sub">French Fries</div></div><div class="price">₹120</div></div>
+
+          <div class="menu-item" data-name="boiled egg 1pc"><div><div class="name">Boiled Egg (1 Pc)</div><div class="sub">Egg</div></div><div class="price">₹15</div></div>
+          <div class="menu-item" data-name="omelette"><div><div class="name">Omelette</div><div class="sub">Egg</div></div><div class="price">₹50</div></div>
+          <div class="menu-item" data-name="egg burji"><div><div class="name">Egg Burji</div><div class="sub">Egg</div></div><div class="price">₹60</div></div>
+
+          <div class="menu-item" data-name="plain maggie"><div><div class="name">Plain Maggie</div><div class="sub">Maggie</div></div><div class="price">₹50</div></div>
+          <div class="menu-item" data-name="cheese maggie"><div><div class="name">Cheese Maggie</div><div class="sub">Maggie</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="butter maggie"><div><div class="name">Butter Maggie</div><div class="sub">Maggie</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="onion & capsicum maggie"><div><div class="name">Onion & Capsicum Maggie</div><div class="sub">Maggie</div></div><div class="price">₹80</div></div>
+          <div class="menu-item" data-name="butter garlic maggie"><div><div class="name">Butter Garlic Maggie</div><div class="sub">Maggie</div></div><div class="price">₹100</div></div>
+          <div class="menu-item" data-name="mushroom maggie"><div><div class="name">Mushroom Maggie</div><div class="sub">Maggie</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="egg maggie"><div><div class="name">Egg Maggie</div><div class="sub">Maggie</div></div><div class="price">₹90</div></div>
+          <div class="menu-item" data-name="chicken maggie"><div><div class="name">Chicken Maggie</div><div class="sub">Maggie</div></div><div class="price">₹110</div></div>
+          <div class="menu-item" data-name="chicken egg maggie"><div><div class="name">Chicken Egg Maggie</div><div class="sub">Maggie</div></div><div class="price">₹120</div></div>
+        </div>
+      </details>
+
+      <div class="policy-strip">
+        <div class="policy">Free home delivery within 2km on orders above ₹300</div>
+        <div class="policy">Order once placed cannot be cancelled</div>
+        <div class="policy">Contact: 8904233005 / 8904233006</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <div class="section-head">
+        <h2>Gallery</h2>
+        <small>Food categories and service highlights</small>
+      </div>
+
+      <div class="gallery">
+        <div class="ph"><div class="t">Rolls</div><div class="s">Egg • Chicken • Paneer • Veg</div></div>
+        <div class="ph"><div class="t">Momos</div><div class="s">Steamed • Fried • Masala</div></div>
+        <div class="ph"><div class="t">Fried Rice</div><div class="s">Veg • Egg • Chicken</div></div>
+        <div class="ph"><div class="t">Noodles</div><div class="s">Classic • Schezwan</div></div>
+        <div class="ph"><div class="t">Tandoori Items</div><div class="s">6/10 pcs options</div></div>
+        <div class="ph"><div class="t">French Fries</div><div class="s">Classic • Peri Peri • Masala</div></div>
+        <div class="ph"><div class="t">Maggie</div><div class="s">Cheese • Butter • Garlic</div></div>
+        <div class="ph"><div class="t">Delivery</div><div class="s">Within 2km on eligible orders</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <small>Enquiries and customer communication</small>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel">
+          <h3>Business Details</h3>
+          <p><strong>Romo Kitchen</strong><br/>
+            153, 1st Cross, 1st Main Rd, 5th Block HMT Layout, Nagasandra, Bengaluru, Karnataka 560073
+          </p>
+          <p style="margin-top:10px;">
+            <strong>Phone:</strong> 8904233005 / 8904233006<br/>
+            <strong>Delivery:</strong> Free home delivery within 2km on orders above ₹300<br/>
+            <strong>Platforms:</strong> Available on Swiggy & Zomato
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Contact Form</h3>
+          <form onsubmit="return submitForm();">
+            <input id="name" type="text" placeholder="Name" required />
+            <input id="phone" type="tel" placeholder="Phone Number" required />
+            <input id="subject" type="text" placeholder="Subject (Order / Enquiry / Feedback)" required />
+            <textarea id="message" placeholder="Message" required></textarea>
+            <button class="btn primary" type="submit">Submit</button>
+          </form>
+          <div id="status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <div>
+        <strong>Romo Kitchen</strong><br/>
+        <small>© 2026 Romo Kitchen. All rights reserved.</small>
+      </div>
+      <div>
+        <small>Address: Nagasandra, Bengaluru • Contact: 8904233005 / 8904233006</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function submitForm(){
+      const status = document.getElementById("status");
+      status.style.color = "#a7f3d0";
+      status.textContent = "Message submitted successfully.";
+      return false;
+    }
+
+    // Menu Search + Filter
+    const searchInput = document.getElementById("menuSearch");
+    const chips = document.querySelectorAll(".chip");
+    const categories = document.querySelectorAll("details.menu-cat");
+    let activeFilter = "all";
+
+    chips.forEach(chip=>{
+      chip.addEventListener("click", ()=>{
+        chips.forEach(c=>c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.dataset.filter;
+        applyFilters();
+      });
+    });
+
+    searchInput.addEventListener("input", applyFilters);
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+
+      categories.forEach(cat=>{
+        const catName = cat.dataset.cat;
+        const catAllowed = (activeFilter === "all") || (activeFilter === catName);
+
+        let anyVisible = false;
+        const items = cat.querySelectorAll(".menu-item");
+
+        items.forEach(item=>{
+          const name = (item.dataset.name || "").toLowerCase();
+          const matches = !q || name.includes(q);
+          const show = catAllowed && matches;
+          item.style.display = show ? "flex" : "none";
+          if(show) anyVisible = true;
+        });
+
+        cat.style.display = anyVisible ? "block" : "none";
+        if(anyVisible) cat.open = true;
+      });
+    }
+  </script>
+</body>
+</html>
